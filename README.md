@@ -40,10 +40,16 @@ npm run serve        # http://localhost:8080
 
 ## Intake form
 
-The form posts JSON to the endpoint in `assets/site-config.js`
-(`intakeEndpoint`), currently `https://abby-crm.com/api/web-forms/roblox`.
-On success it redirects to `thank-you.html`. If `intakeEndpoint` is left empty,
-the form runs in client-side demo mode and redirects without posting.
+The homepage `#intakeForm` section embeds the hosted Velocity web form:
+
+```html
+<div id="mtos-web-form"></div>
+<script src="https://mtosvelocity-api.onrender.com/api/web-forms/roblox/embed.js" defer></script>
+```
+
+The embed script renders and submits the form itself, so no local endpoint or
+form-handling JS is required. To swap forms, replace the embed snippet in
+`index.html`.
 
 ## Deploy
 

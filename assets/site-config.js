@@ -7,8 +7,9 @@ window.SITE_CONFIG = {
   brand: "NATIONAL LITIGATION",
   phoneDisplay: "1-800-555-0199",
   phoneHref: "tel:18005550199",
-  // Where the intake form posts (Abby CRM web-form endpoint).
-  // Leaving this empty keeps the form in client-side demo mode.
-  intakeEndpoint: "https://abby-crm.com/api/web-forms/roblox",
+  // Intake is handled by the hosted Velocity embed on index.html:
+  //   https://mtosvelocity-api.onrender.com/api/web-forms/roblox/embed.js
+  // This endpoint is no longer used by the homepage form; kept for reference.
+  intakeEndpoint: "",
   thankYouUrl: "/thank-you.html"
 };

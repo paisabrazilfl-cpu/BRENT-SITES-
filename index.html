@@ -241,74 +241,20 @@
 
     <section class="intake" id="intakeForm">
       <h2>Request Your Free Review</h2>
-      <p>Complete the form below and a qualified reviewer may contact you. All fields marked with * are required.</p>
+      <p>Complete the form below and a qualified reviewer may contact you.</p>
 
-      <form id="reviewForm" novalidate>
-        <div class="two-col">
-          <div class="field">
-            <label for="firstName">First Name *</label>
-            <input type="text" id="firstName" name="firstName" autocomplete="given-name" required />
-          </div>
-          <div class="field">
-            <label for="lastName">Last Name *</label>
-            <input type="text" id="lastName" name="lastName" autocomplete="family-name" required />
-          </div>
-        </div>
+      <!-- Hosted intake form (Velocity / mtos web form) -->
+      <div id="mtos-web-form"></div>
+      <script src="https://mtosvelocity-api.onrender.com/api/web-forms/roblox/embed.js" defer></script>
 
-        <div class="two-col">
-          <div class="field">
-            <label for="email">Email *</label>
-            <input type="email" id="email" name="email" autocomplete="email" required />
-          </div>
-          <div class="field">
-            <label for="phone">Phone *</label>
-            <input type="tel" id="phone" name="phone" autocomplete="tel" required />
-          </div>
-        </div>
-
-        <div class="two-col">
-          <div class="field">
-            <label for="state">State *</label>
-            <input type="text" id="state" name="state" autocomplete="address-level1" required />
-          </div>
-          <div class="field">
-            <label for="concern">Primary Concern *</label>
-            <select id="concern" name="concern" required>
-              <option value="">Select one&hellip;</option>
-              <option>Unauthorized charges</option>
-              <option>Robux refund</option>
-              <option>Parental controls</option>
-              <option>Child safety</option>
-              <option>Account issue</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="details">Briefly describe what happened</label>
-          <textarea id="details" name="details" placeholder="Optional: approximate dates, amounts, and what occurred."></textarea>
-        </div>
-
-        <label class="consent">
-          <input type="checkbox" id="consent" name="consent" required />
-          <span>
-            By submitting, I agree to the <a href="/tcpa-consent.html">TCPA Consent</a>,
-            <a href="/privacy-policy.html">Privacy Policy</a>, and
-            <a href="/terms-of-service.html">Terms of Service</a>, and I consent to be contacted by phone,
-            email, or text regarding my inquiry, including by automated means. Consent is not a condition of
-            any service. *
-          </span>
-        </label>
-
-        <button type="submit" class="cta">Submit Free Review</button>
-
-        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-        <p class="form-note">
-          Submitting this form does not create an attorney-client relationship and does not guarantee that a
-          claim will be accepted or that compensation will be available.
-        </p>
-      </form>
+      <p class="form-note">
+        By submitting, you agree to the <a href="/tcpa-consent.html">TCPA Consent</a>,
+        <a href="/privacy-policy.html">Privacy Policy</a>, and
+        <a href="/terms-of-service.html">Terms of Service</a>, and consent to be contacted by phone, email,
+        or text regarding your inquiry, including by automated means. Consent is not a condition of any service.
+        Submitting this form does not create an attorney-client relationship and does not guarantee that a
+        claim will be accepted or that compensation will be available.
+      </p>
     </section>
   </main>
 
@@ -326,56 +272,5 @@
       <a href="/sitemap.xml">Sitemap</a>
     </p>
   </footer>
-
-  <script>
-    (function () {
-      var config = window.SITE_CONFIG || {};
-      var form = document.getElementById("reviewForm");
-      var status = document.getElementById("formStatus");
-
-      function showStatus(message, kind) {
-        status.textContent = message;
-        status.className = "form-status " + kind;
-      }
-
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        if (!form.checkValidity()) {
-          showStatus("Please complete all required fields and agree to the consent.", "error");
-          form.reportValidity();
-          return;
-        }
-
-        var payload = Object.fromEntries(new FormData(form).entries());
-        payload.consent = !!payload.consent;
-        payload.submittedAt = new Date().toISOString();
-        payload.sourcePage = window.location.pathname;
-
-        // If no endpoint is configured, run in demo mode and redirect to thank-you.
-        if (!config.intakeEndpoint) {
-          showStatus("Thank you — your request has been received.", "ok");
-          window.setTimeout(function () {
-            window.location.href = config.thankYouUrl || "/thank-you.html";
-          }, 600);
-          return;
-        }
-
-        showStatus("Submitting…", "ok");
-        fetch(config.intakeEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        })
-          .then(function (res) {
-            if (!res.ok) throw new Error("Request failed");
-            window.location.href = config.thankYouUrl || "/thank-you.html";
-          })
-          .catch(function () {
-            showStatus("Something went wrong. Please call " + (config.phoneDisplay || "us") + ".", "error");
-          });
-      });
-    })();
-  </script>
 </body>
 </html>
