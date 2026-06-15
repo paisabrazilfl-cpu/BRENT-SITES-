@@ -1,0 +1,12 @@
+{
+  "name": "national-litigation-site",
+  "version": "1.0.0",
+  "description": "Roblox claim review legal intake site with geo landing pages and sitemap generation.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/generate.mjs && node scripts/legal.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}
